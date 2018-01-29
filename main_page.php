@@ -21,7 +21,7 @@
                 there are "login" and "signup" judgement in login_signup_page.php
                 -->
                 <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST">
-                    <label for="userName">User Name (No ~!@#$%^&*()):</label>
+                    <label for="userName">User Name (No /^[\w_\.\-]+$/):</label>
                     <input type="text" name="userName">
                     <input type="submit" name="Check" value="Check User Name">
                     <input type="submit" name="Login" value="Login">
@@ -102,12 +102,11 @@
                                 }
                                 fclose($file);
                                 
-                                 //no same user name, the typed-in username canbe used to Signup
+                                 //no same user name
                                 if($isExist == false){                                          
                                     printf("<p><strong>%s is not exist</strong></p>\n",
                                             htmlentities($_POST['userName']));
                                         exit;
-                                    
                                 }
                             }
                             else{
@@ -127,7 +126,62 @@
                             exit;
                         }
                     }
+                    
                     //if user press create button
+                    if(isset($_POST['Signup'])){
+                        //check whether userName is set
+                        if(isset($_POST['userName'])) {
+                            //check users.txt file
+                            $file = fopen("/srv/users.txt", "r"); 
+                            $username = $_POST['userName'];
+                            $isExist = false;
+                            #check whether the username is in the file
+                            // make sure username is valid
+                            if (preg_match('/^[\w_\.\-]+$/', $username)) {   
+                                while (!feof($file)) {
+                                    //fgets reads the contents of a line, and trim() gets the value of fgets() for compare string
+                                    if ($username == trim(fgets($file))) {      //find same user name
+                                        $isExist = true;
+                                        printf("<p><strong>%s already exists</strong></p>\n",
+                                            htmlentities($_POST['userName']));
+                                        fclose($file);
+                                        exit;
+                                    }
+                                }
+                                fclose($file);
+                                //no same user name, the typed-in username canbe used to Signup
+                                //add this user name to users.txt and create dir
+                                if($isExist == false){                                          
+                                    $_SESSION['userName'] = $username;
+                                    $file = "/srv/users.txt";
+                                    //write this user to users.txt
+                                    $current = file_get_contents($file);
+                                    $current .= $username."\n";
+                                    
+                                    file_put_contents($file, $current);
+                                    //create user dir
+                                    
+                                    header("Location: user_page.php");
+                                    exit;
+                                }
+                            }
+                            else{
+                                if($username == ""){
+                                    printf("<p><strong>Null user name</strong></p>\n");
+                                    exit;
+                                }
+                                else{
+                                    printf("<p><strong>%s is an invalid user name</strong></p>\n",
+                                       htmlentities($_POST['userName']));
+                                    exit;
+                                }
+                            }   
+                        }
+                        else{  //user name is not set
+                            printf("<p><strong>Null user name</strong></p>\n");
+                            exit;
+                        }
+                    }
                 ?>
             </div>
         </body>

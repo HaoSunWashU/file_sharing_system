@@ -20,7 +20,7 @@
                     ?>
                 </h2>
                 <!--Uploading a File, uploadFiles.php handles the uploaded file-->
-                <form enctype="multipart/form-data" action="uploadFiles.php" method="POST">
+                <form enctype="multipart/form-data" action="upload_file.php" method="POST">
                     <p>
                         <input type="hidden" name="MAX_FILE_SIZE" value="20000000"/>
                         <label for="uploadFiles_input">Choose a file to upload: </label>
@@ -30,6 +30,51 @@
                         <input type="submit" name="Upload File" value="Upload"/>
                     </p>
                 </form>
+                <h4>The list of files: </h4>
+                <?php
+                    //session_start();
+
+                    $userName = $_SESSION['userName'];
+                    //if file path is not exist, create it.
+                    if (!file_exists("/srv/uploads/$userName/")) {
+                        mkdir("/srv/uploads/$userName");
+                        chmod("/srv/uploads/$userName", 0777);
+                    }
+                    $full_path = sprintf("/srv/uploads/%s",$userName);
+                    $dh = opendir($full_path);
+
+                    //list the files of this user
+                    if (is_dir($full_path)) {
+                        while (($file = readdir($dh)) !== false) {
+                            if (($file != ".") && ($file != "..")) {#.$file."<br>"
+                                echo "<br>";
+                                echo "<form name=\"input\" action=\"openFiles.php\" method=\"POST\">";
+                                echo "<input type=\"hidden\" value=".$file." name=\"openfile\">";
+                                echo "<input type=\"submit\" value=\"Open\">".$file."<br>";
+                                echo "</form>";
+
+                                echo "<form name=\"input\" action=\"deleteFiles.php\" method=\"POST\">";
+                                echo "<input type=\"hidden\" value=".$file." name=\"deletefile\">";
+                                echo "<input type=\"submit\" value=\"Delete\">".$file."<br>";
+                                echo "</form>";
+                            }
+                        }
+                        closedir($dh);
+                    }
+
+                ?>
+                <br>
+                <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST">
+                    <input type="submit" name="logout" value="Logout"/>
+                </form>
+                
+                <?php
+                    if(isset($_POST['logout'])){
+                        session_start();
+                        session_destroy();
+                        header("Location: main_page.php"); 
+                    }
+                ?>
             </div>
         </body>
         
