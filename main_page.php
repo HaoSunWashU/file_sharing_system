@@ -1,5 +1,11 @@
+<!--Note: The session_start() function must be the very first thing in your document.
+Before any HTML tags.-->
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
-    <html>
+    <html lang="en">
         <head>
             <title> File Sharing System </title>
             <link rel="stylesheet" type="text/css" href="theStyle.css">
@@ -21,15 +27,15 @@
                 there are "login" and "signup" judgement in login_signup_page.php
                 -->
                 <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST">
-                    <label for="userName">User Name (No /^[\w_\.\-]+$/):</label>
-                    <input type="text" name="userName">
-                    <input type="submit" name="Check" value="Check User Name">
-                    <input type="submit" name="Login" value="Login">
-                    <input type="submit" name="Signup" value="Signup">
+                    <label for="userName">User Name:</label>
+                    <input type="text" name="userName" />
+                    <input type="submit" name="Check" value="Check User Name" />
+                    <input type="submit" name="Login" value="Login" />
+                    <input type="submit" name="Signup" value="Signup" />
                 </form>
                 
                 <?php
-                    session_start();
+                    //session_start();
                     //if user press check user name button
                     //give the information about whether the user name user just typed in exist
                     if(isset($_POST['Check'])){

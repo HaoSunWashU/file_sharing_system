@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
     <html>
         <head>
@@ -15,7 +19,7 @@
                     <!--//    echo "Hello, ".$_SESSION['userName'];-->
                     <?php
                         //include("main_page.php");
-                        session_start();
+                        //session_start();
                         echo "Hello, ".$_SESSION['userName'];
                     ?>
                 </h2>
@@ -48,12 +52,12 @@
                         while (($file = readdir($dh)) !== false) {
                             if (($file != ".") && ($file != "..")) {#.$file."<br>"
                                 echo "<br>";
-                                echo "<form name=\"input\" action=\"openFiles.php\" method=\"POST\">";
+                                echo "<form name=\"input\" action=\"open_files.php\" method=\"POST\">";
                                 echo "<input type=\"hidden\" value=".$file." name=\"openfile\">";
                                 echo "<input type=\"submit\" value=\"Open\">".$file."<br>";
                                 echo "</form>";
 
-                                echo "<form name=\"input\" action=\"deleteFiles.php\" method=\"POST\">";
+                                echo "<form name=\"input\" action=\"delete_files.php\" method=\"POST\">";
                                 echo "<input type=\"hidden\" value=".$file." name=\"deletefile\">";
                                 echo "<input type=\"submit\" value=\"Delete\">".$file."<br>";
                                 echo "</form>";
@@ -64,14 +68,18 @@
 
                 ?>
                 <br>
+                
+                <!--use self-submitting form realize logout-->
                 <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST">
                     <input type="submit" name="logout" value="Logout"/>
                 </form>
-                
                 <?php
                     if(isset($_POST['logout'])){
-                        session_start();
-                        session_destroy();
+                        // remove all session variables
+                        session_unset(); 
+
+                        // destroy the session 
+                        session_destroy();          
                         header("Location: main_page.php"); 
                     }
                 ?>
