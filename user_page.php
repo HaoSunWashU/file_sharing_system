@@ -6,7 +6,8 @@ session_start();
     <html>
         <head>
             <title>Welcome to your file sharing system</title>
-            <link rel="stylesheet" type="text/css" href="theStyle.css">
+            
+            <link rel="stylesheet" type="text/css" href="style_1.css">
         </head>
                 
         <body>

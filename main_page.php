@@ -1,14 +1,30 @@
 <!--Note: The session_start() function must be the very first thing in your document.
 Before any HTML tags.-->
 <?php
-session_start();
+    session_start();
 ?>
 
 <!DOCTYPE html>
     <html lang="en">
         <head>
             <title> File Sharing System </title>
-            <link rel="stylesheet" type="text/css" href="theStyle.css">
+            <link rel="stylesheet" type="text/css" href="style.css">
+            <!--<style type="text/css">-->
+            <!--    -->
+            <!--    body{-->
+            <!--        background: teal;-->
+            <!--        font-family: arial;-->
+            <!--        line-height: 1.5em;-->
+            <!--    }-->
+            <!--    #main{-->
+            <!--        background-color: #f4f4f4;-->
+            <!--        border:10px #cccccc solid;-->
+            <!--        padding: 10px 10px 10px 10px;-->
+            <!--        margin-top: 250px;-->
+            <!--        width: 600px;-->
+            <!--        margin: 30px auto;-->
+            <!--    }-->
+            <!--</style>-->
         </head>
         <body>
             <div id="main">
@@ -26,13 +42,18 @@ session_start();
                 2. type in user name and press the signup, direct to login_signup_page.php
                 there are "login" and "signup" judgement in login_signup_page.php
                 -->
-                <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST">
+                
+                <fieldset>
+                    <legend>Account:</legend>
+                    <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST">
                     <label for="userName">User Name:</label>
                     <input type="text" name="userName" />
                     <input type="submit" name="Check" value="Check User Name" />
                     <input type="submit" name="Login" value="Login" />
                     <input type="submit" name="Signup" value="Signup" />
                 </form>
+                </fieldset>
+                
                 
                 <?php
                     //session_start();

@@ -1,0 +1,18 @@
+body{
+	background: #666;
+	color:#666;
+	width:600px;
+	margin: 0 auto;
+	padding: 0;
+	font-family: arial;
+	line-height: 1.5em;
+	font-size: 16px;
+}
+#main{
+	background-color: #333;
+	color: #fff;
+	width: 600px;
+	border: 10px #ffffff solid;
+	margin: 50px auto;
+	padding: 10px;
+}
